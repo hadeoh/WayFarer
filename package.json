@@ -4,7 +4,8 @@
   "description": "WayFarer is a public bus transportation booking server.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,8 @@
     "chai-http": "^4.3.0",
     "codeclimate-test-reporter": "^0.5.1",
     "coveralls": "^3.0.4",
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb": "^17.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-prettier": "^3.1.0",
