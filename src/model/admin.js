@@ -1,10 +1,11 @@
 import db from './db';
+import Helper from '../middleware/helper';
 
 const adminValue = [
   'usman',
   'adio',
   'usthmandanfodio@gmail.com',
-  'modupeola',
+  Helper.hashPassword('modupeola'),
   true,
 ];
 

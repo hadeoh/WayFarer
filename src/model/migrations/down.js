@@ -27,3 +27,5 @@ pool.on('remove', () => {
 
 const QueryText = 'DROP TABLE IF EXISTS users, buses, trips, bookings';
 dropTable(QueryText);
+const QueryType = 'DROP TYPE public.trip_status';
+dropTable(QueryType);
