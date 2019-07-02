@@ -23,6 +23,25 @@ class UserController {
       return next(e);
     }
   }
+
+  /**
+   *
+   * Logs a user in if valid credentials are provided
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} JSON API Response
+   * @memberof UserController
+   */
+  static async logUserIn(req, res, next) {
+    try {
+      const response = await UserService.logUserIn(req.body);
+      return res.status(response.statuscode).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
+
 
 export default UserController;

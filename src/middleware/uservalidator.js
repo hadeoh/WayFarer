@@ -72,6 +72,37 @@ class UserValidation {
   }
 
   /**
+   * Handles user input validation on log in
+   *
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof AccountValidation
+   */
+  static loginCheck(req, res, next) {
+    let { email, password } = req.body;
+
+    if (email) email = email.trim();
+    if (password) password = password.trim();
+
+    const errors = [];
+
+    let isEmpty;
+    isEmpty = helper.checkFieldEmpty(email, 'email');
+    if (isEmpty) errors.push(isEmpty);
+
+    isEmpty = helper.checkFieldEmpty(password, 'password');
+    if (isEmpty) errors.push(isEmpty);
+
+    if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
+
+    req.body.email = email;
+    req.body.password = password;
+    return next();
+  }
+
+  /**
    *
    * Runs a check on the fields provided and returns appropriate errors if any
    * @static
