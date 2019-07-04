@@ -2,7 +2,9 @@ import db from './db';
 
 class Bus {
   static async createBus(newBus) {
-    const { numberPlate, manufacturer, model, year, capacity } = newBus;
+    const {
+      numberPlate, manufacturer, model, year, capacity,
+    } = newBus;
     const busQuery = `INSERT INTO buses(number_plate,manufacturer,model,year,capacity,status) 
         VALUES ($1,$2,$3,$4,$5,$6) returning *`;
     const result = await db.query(busQuery, [numberPlate, manufacturer, model, year, capacity, 'available']);

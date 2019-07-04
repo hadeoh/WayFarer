@@ -1,10 +1,12 @@
-import Trip from '../model/trip';
 import Bus from '../model/bus';
+import Trip from '../model/trip';
 import helper from './helper';
 
 class TripValidation {
   static async tripCheck(req, res, next) {
-    let { busId, origin, destination, tripDate, fare } = req.body;
+    let {
+      busId, origin, destination, tripDate, fare,
+    } = req.body;
 
     if (busId) busId = busId.trim();
     if (origin) origin = origin.trim();
