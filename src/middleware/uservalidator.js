@@ -30,6 +30,20 @@ class UserValidation {
     const errors = UserValidation.inputCheck(email, firstName, lastName, password, confirmPassword);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
 
+    const isInvalid = helper.validateEmail(email);
+    if (isInvalid) return res.status(isInvalid.statuscode).json(isInvalid);
+
+    const result = await User.findEmail(email);
+
+    if (result > 0) {
+      return res.status(409).json({
+        status: 'error',
+        statuscode: 409,
+        error: 'Email already in use',
+        message: 'Please provide another email address',
+      });
+    }
+
     const passwordPattern = /\w{6,}/g;
 
     if (!passwordPattern.test(password)) {
@@ -50,19 +64,6 @@ class UserValidation {
       });
     }
 
-    const isInvalid = helper.validateEmail(email);
-    if (isInvalid) return res.status(isInvalid.statuscode).json(isInvalid);
-
-    const result = await User.findEmail(email);
-
-    if (result > 0) {
-      return res.status(409).json({
-        status: 'error',
-        statuscode: 409,
-        error: 'Email already in use',
-        message: 'Please provide a another email address',
-      });
-    }
     req.body.firstName = firstName;
     req.body.lastName = lastName;
     req.body.password = password;
