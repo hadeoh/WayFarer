@@ -29,13 +29,18 @@ const createTableSchema = async () => {
             password VARCHAR(255) NOT NULL,
             is_admin BOOLEAN NOT NULL DEFAULT FALSE
             );
+    CREATE TYPE bus_status AS ENUM(
+      'available',
+      'unavailable'
+      );
     CREATE TABLE buses (
         id SERIAL PRIMARY KEY NOT NULL,
         number_plate VARCHAR(128) NOT NULL UNIQUE,
         manufacturer TEXT NOT NULL ,
         model VARCHAR(128) NOT NULL,
         year VARCHAR(128) NOT NULL,
-        capacity NUMERIC(15,2) NOT NULL
+        capacity NUMERIC(15,2) NOT NULL,
+        status bus_status NOT NULL DEFAULT 'available'
         );
     CREATE TYPE trip_status AS ENUM(
         'active',
@@ -46,7 +51,7 @@ const createTableSchema = async () => {
         bus_id INTEGER NOT NULL REFERENCES buses(id) ON DELETE CASCADE,
         origin TEXT NOT NULL,
         destination VARCHAR(128) NOT NULL,
-        trip_date DATE DEFAULT now(),
+        trip_date DATE Not NULL,
         fare FLOAT NOT NULL,
         status trip_status NOT NULL DEFAULT 'active'
         );
