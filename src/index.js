@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './routes/user';
+import busRoutes from './routes/bus';
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +18,7 @@ app.get('/', (req, res) => res.status(200).send({
 
 // Handles
 app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1/buses', busRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');

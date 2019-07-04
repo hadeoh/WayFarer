@@ -78,7 +78,7 @@ class UserValidation {
    * @param {Object} req
    * @param {Object} res
    * @returns {(function|Object)} function next() or an error response object
-   * @memberof AccountValidation
+   * @memberof UserValidation
    */
   static loginCheck(req, res, next) {
     let { email, password } = req.body;
