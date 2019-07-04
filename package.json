@@ -12,7 +12,11 @@
     "up": "npm run move && npm run admin",
     "down": "babel-node src/model/migrations/down",
     "seed": "babel-node src/model/migrations/seed",
-    "migrations": "npm run down && npm run up && npm run seed"
+    "migrations": "npm run down && npm run up && npm run seed",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
+    "coverage": "nyc npm run test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
   "repository": {
     "type": "git",
