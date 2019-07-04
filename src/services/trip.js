@@ -20,6 +20,25 @@ class TripService {
       message: 'New trip created successfully',
     };
   }
+
+  static async getAllTrips() {
+    const trips = await Trip.getAllTrips();
+    if (trips < 1) {
+      return {
+        status: 'error',
+        statuscode: 400,
+        error: 'Not found',
+        message: 'There is no trip available',
+      }
+    }
+    return {
+      status: 'success',
+      statuscode: 200,
+      data: {
+        ...trips,
+      },
+    };
+  }
 }
 
 export default TripService;
