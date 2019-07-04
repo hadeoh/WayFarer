@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import User from '../model/usermodel';
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ class Helper {
    * @memberof Helper
    */
   static getToken(userPayload) {
-    return jwt.sign(userPayload, process.env.SECRET, { expiresIn: '7h' });
+    return jwt.sign(userPayload, process.env.SECRET, { expiresIn: '365d' });
   }
 
   /**
@@ -102,6 +103,18 @@ class Helper {
         statuscode: 422,
         error: `Invalid ${field} provided`,
         message: `${field} must contain only alphabets`,
+      };
+    }
+    return false;
+  }
+
+  static checkFieldNumber(value, field) {
+    if (!Number(value)) {
+      return {
+        status: 'error',
+        statuscode: 403,
+        error: `Invalid ${field} provided`,
+        message: `${field} must contain only numbers`,
       };
     }
     return false;
