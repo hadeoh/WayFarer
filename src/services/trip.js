@@ -8,8 +8,6 @@ class TripService {
     if (trip) {
       Bus.updateBusStatus('unavailable', trip.bus_id);
     }
-    trip.trip_id = trip.id;
-    delete trip.id;
     return {
       status: 'success',
       statuscode: 201,
