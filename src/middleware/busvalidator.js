@@ -9,7 +9,6 @@ class BusValidation {
     if (manufacturer) manufacturer = manufacturer.trim();
     if (model) model = model.trim();
     if (year) year = year.trim();
-    if (capacity) capacity = capacity.trim();
 
     const errors = BusValidation.inputCheck(numberPlate, manufacturer, model, year, capacity);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);

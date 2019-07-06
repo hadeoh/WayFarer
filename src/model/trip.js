@@ -13,8 +13,9 @@ class Trip {
 
   static async getAllTrips() {
     const query = 'SELECT * FROM trips';
-    const result = await db.query(query);
-    return result.rows;
+    const { rows, rowCount } = await db.query(query);
+    if (rowCount > 0) return rows;
+    return false;
   }
 }
 

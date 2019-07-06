@@ -112,7 +112,7 @@ class Helper {
     if (!Number(value)) {
       return {
         status: 'error',
-        statuscode: 403,
+        statuscode: 422,
         error: `Invalid ${field} provided`,
         message: `${field} must contain only numbers`,
       };

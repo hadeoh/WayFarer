@@ -54,7 +54,7 @@ class Auth {
       return res.status(401).json({
         status: 'error',
         statuscode: 401,
-        error: 'Unauthorized action',
+        error: 'Unauthorized action!',
         message: 'Only admins can perform this action',
       });
     }

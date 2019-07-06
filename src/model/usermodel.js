@@ -19,11 +19,6 @@ class User {
     let query;
     let result;
     switch (userType) {
-      case 'admin':
-        query = `INSERT INTO users(first_name,last_name,email,password,is_admin) 
-        VALUES ($1,$2,$3,$4,$5) returning *`;
-        result = await db.query(query, [firstName, lastName, email, hashedpassword, true]);
-        break;
       case 'user':
         query = `INSERT INTO users(first_name,last_name,email,password)
         VALUES ($1,$2,$3,$4) returning *`;

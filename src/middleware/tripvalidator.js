@@ -8,7 +8,6 @@ class TripValidation {
       busId, origin, destination, tripDate, fare,
     } = req.body;
 
-    if (busId) busId = busId.trim();
     if (origin) origin = origin.trim();
     if (destination) destination = destination.trim();
     if (tripDate) tripDate = tripDate.trim();
