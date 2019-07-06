@@ -58,7 +58,7 @@ class UserService {
     if (!foundUser) return {
       status: 'error',
       statuscode: 401,
-      error: 'Invalid email provided',
+      error: 'This email is not registered here',
     };
 
     const hash = foundUser.password;

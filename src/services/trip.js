@@ -10,7 +10,6 @@ class TripService {
     }
     trip.trip_id = trip.id;
     delete trip.id;
-    delete trip.status;
     return {
       status: 'success',
       statuscode: 201,
@@ -22,20 +21,20 @@ class TripService {
   }
 
   static async getAllTrips() {
-    const trips = await Trip.getAllTrips();
-    if (trips < 1) {
+    const trip = await Trip.getAllTrips();
+    if (trip < 1) {
       return {
         status: 'error',
-        statuscode: 400,
+        statuscode: 404,
         error: 'Not found',
         message: 'There is no trip available',
-      }
+      };
     }
     return {
       status: 'success',
       statuscode: 200,
       data: {
-        ...trips,
+        ...trip,
       },
     };
   }
