@@ -144,6 +144,27 @@ describe('Tests for all buses Endpoints', () => {
           done();
         });
     });
+    it('Should return an error if an admin tries to create a bus without a number_plate', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/buses')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          numberPlate: '',
+          manufacturer: 'Toyota',
+          model: 'camry',
+          year: '2018',
+          capacity: 200,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.statuscode).to.be.equal(422);
+          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
+          expect(res.body.error).to.be.equal('Invalid numberPlate provided');
+          expect(res.body.message).to.be.equal('numberPlate cannot be empty');
+          done();
+        });
+    });
     it('Should return an error if an admin tries to create a bus without a manufacturer', (done) => {
       chai
         .request(app)
@@ -246,29 +267,6 @@ describe('Tests for all buses Endpoints', () => {
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
           expect(res.body.error).to.be.equal('Invalid capacity provided');
           expect(res.body.message).to.be.equal('capacity must contain only numbers');
-          done();
-        });
-    });
-    it('Should return an error if an admin tries to create a bus with a taken number plate', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/buses')
-        .set('Authorization', `Bearer ${adminToken}`)
-        .send({
-          id: 5,
-          numberPlate: '1334',
-          manufacturer: 'Chevron',
-          model: 'Speedy',
-          year: '2018',
-          capacity: 200,
-          status: 'unavailable',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(409);
-          expect(res.body.statuscode).to.be.equal(409);
-          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Bus with such a numberPlate already exists');
-          expect(res.body.message).to.be.equal('Please provide a bus with another numberPlate');
           done();
         });
     });

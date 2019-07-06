@@ -305,7 +305,7 @@ describe('Tests for all trips Endpoints', () => {
           expect(res.body.statuscode).to.be.equal(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.data[0]).to.have.keys(
-            'id',
+            'trip_id',
             'bus_id',
             'origin',
             'destination',
@@ -360,7 +360,7 @@ describe('Tests for all trips Endpoints', () => {
           expect(res.body.statuscode).to.be.equal(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.data[0]).to.have.keys(
-            'id',
+            'trip_id',
             'bus_id',
             'origin',
             'destination',
