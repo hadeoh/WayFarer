@@ -4,16 +4,8 @@ import dotenv from 'dotenv';
 const { Pool } = pg;
 dotenv.config();
 
-let dbURI;
-
-if (process.env.NODE_ENV.trim() === 'TEST') {
-  dbURI = process.env.TEST_DATABASE_URL;
-} else {
-  dbURI = process.env.DATABASE_URL;
-}
-
 const pool = new Pool({
-  connectionString: dbURI,
+  connectionString: process.env.DATABASE_URL,
 });
 
 pool.on('connect', () => {

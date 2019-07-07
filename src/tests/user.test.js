@@ -10,6 +10,19 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Tests for all Auth(signup and signin) Endpoints', () => {
+  before((done) => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'franchesqa@gmail.com',
+        password: 'yh89uyightGH',
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        done(err);
+      });
+  });
   describe('POST api/v1/auth/signup', () => {
     it('Should successfully sign up a user and return a token', (done) => {
       chai
