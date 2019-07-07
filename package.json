@@ -4,7 +4,7 @@
   "description": "WayFarer is a public bus transportation booking server.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run migrations && mocha src/tests/*.js --require @babel/register --timeout 50000 --exit || true",
+    "test": "et NODE_ENV=test && npm run migrations && mocha src/tests/*.js --require @babel/register --timeout 50000 --exit || true",
     "test-watch": "nodemon --exec \"npm test\"",
     "start": "nodemon --exec babel-node src/index.js",
     "babel-build": "babel src -d src/dist && node src/dist/index",
