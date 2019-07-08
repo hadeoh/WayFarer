@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable default-case */
 import db from './db';
 /**
@@ -15,14 +16,14 @@ class User {
      * @memberof User
      */
   static async create(newUser, userType) {
-    const { email, firstName, lastName, hashedpassword } = newUser;
+    const { email, first_name, last_name, hashedpassword } = newUser;
     let query;
     let result;
     switch (userType) {
       case 'user':
         query = `INSERT INTO users(first_name,last_name,email,password)
         VALUES ($1,$2,$3,$4) returning *`;
-        result = await db.query(query, [firstName, lastName, email, hashedpassword]);
+        result = await db.query(query, [first_name, last_name, email, hashedpassword]);
     }
     return result.rows[0];
   }
@@ -38,6 +39,13 @@ class User {
   static async findByEmail(email) {
     const query = 'SELECT * FROM users WHERE email = $1';
     const { rows, rowCount } = await db.query(query, [email]);
+    if (rowCount > 0) return rows[0];
+    return false;
+  }
+
+  static async findById(id) {
+    const query = 'SELECT * FROM users WHERE id = $1';
+    const { rows, rowCount } = await db.query(query, [id]);
     if (rowCount > 0) return rows[0];
     return false;
   }

@@ -1,19 +1,20 @@
+/* eslint-disable camelcase */
 import Bus from '../model/bus';
 import helper from './helper';
 
 class BusValidation {
   static async busCheck(req, res, next) {
-    let { numberPlate, manufacturer, model, year, capacity } = req.body;
+    let { number_plate, manufacturer, model, year, capacity } = req.body;
 
-    if (numberPlate) numberPlate = numberPlate.trim();
+    if (number_plate) number_plate = number_plate.trim();
     if (manufacturer) manufacturer = manufacturer.trim();
     if (model) model = model.trim();
     if (year) year = year.trim();
 
-    const errors = BusValidation.inputCheck(numberPlate, manufacturer, model, year, capacity);
+    const errors = BusValidation.inputCheck(number_plate, manufacturer, model, year, capacity);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
 
-    const result = await Bus.findBus(numberPlate);
+    const result = await Bus.findBus(number_plate);
 
     if (result > 0) {
       return res.status(409).json({
@@ -24,7 +25,7 @@ class BusValidation {
       });
     }
 
-    req.body.numberPlate = numberPlate;
+    req.body.number_plate = number_plate;
     req.body.manufacturer = manufacturer;
     req.body.model = model;
     req.body.year = year;
@@ -33,15 +34,15 @@ class BusValidation {
     return next();
   }
 
-  static inputCheck(numberPlate, manufacturer, model, year, capacity) {
+  static inputCheck(number_plate, manufacturer, model, year, capacity) {
     const errors = [];
     let isEmpty;
     let hasWhiteSpace;
     let isInteger;
-    isEmpty = helper.checkFieldEmpty(numberPlate, 'numberPlate');
+    isEmpty = helper.checkFieldEmpty(number_plate, 'number_plate');
     if (isEmpty) errors.push(isEmpty);
 
-    hasWhiteSpace = helper.checkFieldWhiteSpace(numberPlate, 'numberPlate');
+    hasWhiteSpace = helper.checkFieldWhiteSpace(number_plate, 'number_plate');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
     isEmpty = helper.checkFieldEmpty(manufacturer, 'manufacturer');

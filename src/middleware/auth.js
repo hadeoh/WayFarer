@@ -27,7 +27,7 @@ class Auth {
 
       req.userId = decoded.id;
       req.userEmail = decoded.email;
-      req.isAdmin = decoded.isAdmin;
+      req.is_admin = decoded.is_admin;
 
       return next();
     } catch (e) {
@@ -50,12 +50,24 @@ class Auth {
    * @memberof Auth
    */
   static adminCheck(req, res, next) {
-    if (req.isAdmin !== true) {
+    if (req.is_admin !== true) {
       return res.status(401).json({
         status: 'error',
         statuscode: 401,
         error: 'Unauthorized action!',
         message: 'Only admins can perform this action',
+      });
+    }
+    return next();
+  }
+
+  static notAdminCheck(req, res, next) {
+    if (req.is_admin !== false) {
+      return res.status(401).json({
+        status: 'error',
+        statuscode: 401,
+        error: 'Unauthorized action!',
+        message: 'Only users can perform this action',
       });
     }
     return next();

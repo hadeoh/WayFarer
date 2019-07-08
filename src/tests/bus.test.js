@@ -49,7 +49,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '1334',
+          number_plate: '1334',
           manufacturer: 'Chevron',
           model: 'Speedy',
           year: '2018',
@@ -76,7 +76,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${''}`)
         .send({
-          numberPlate: '1334',
+          number_plate: '1334',
           manufacturer: 'Chevron',
           model: 'Speedy',
           year: '2018',
@@ -100,7 +100,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${abc}`)
         .send({
-          numberPlate: '1334',
+          number_plate: '1334',
           manufacturer: 'Chevron',
           model: 'Speedy',
           year: '2018',
@@ -124,7 +124,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          numberPlate: '1334',
+          number_plate: '1334',
           manufacturer: 'Chevron',
           model: 'Speedy',
           year: '2018',
@@ -150,7 +150,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '',
+          number_plate: '',
           manufacturer: 'Toyota',
           model: 'camry',
           year: '2018',
@@ -160,8 +160,8 @@ describe('Tests for all buses Endpoints', () => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid numberPlate provided');
-          expect(res.body.message).to.be.equal('numberPlate cannot be empty');
+          expect(res.body.error).to.be.equal('Invalid number_plate provided');
+          expect(res.body.message).to.be.equal('number_plate cannot be empty');
           done();
         });
     });
@@ -171,7 +171,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '12',
+          number_plate: '12',
           manufacturer: '',
           model: 'camry',
           year: '2018',
@@ -192,7 +192,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '13',
+          number_plate: '13',
           manufacturer: 'honda',
           model: '',
           year: '2018',
@@ -213,7 +213,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '13',
+          number_plate: '13',
           manufacturer: 'honda',
           model: 'accord',
           year: '',
@@ -234,7 +234,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '13',
+          number_plate: '13',
           manufacturer: 'honda',
           model: 'accord',
           year: '1876',
@@ -255,7 +255,7 @@ describe('Tests for all buses Endpoints', () => {
         .post('/api/v1/buses')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          numberPlate: '14',
+          number_plate: '14',
           manufacturer: 'honda',
           model: 'accord',
           year: '1876',

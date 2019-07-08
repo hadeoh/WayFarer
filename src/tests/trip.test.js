@@ -50,10 +50,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 2,
+          bus_id: 2,
           origin: 'Imo',
           destination: 'Awka',
-          tripDate: '2018-09-09',
+          trip_date: '2018-09-09',
           fare: '5677',
         })
         .end((err, res) => {
@@ -77,10 +77,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${''}`)
         .send({
-          busId: 2,
+          bus_id: 2,
           origin: 'Imo',
           destination: 'Awka',
-          tripDate: '2018-09-09',
+          trip_date: '2018-09-09',
           fare: '5677',
         })
         .end((err, res) => {
@@ -101,10 +101,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${abc}`)
         .send({
-          busId: 2,
+          bus_id: 2,
           origin: 'Imo',
           destination: 'Awka',
-          tripDate: '2018-09-09',
+          trip_date: '2018-09-09',
           fare: '5677',
         })
         .end((err, res) => {
@@ -125,10 +125,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 2,
+          bus_id: 2,
           origin: 'Imo',
           destination: 'Awka',
-          tripDate: '2018-09-09',
+          trip_date: '2018-09-09',
           fare: '5677',
         })
         .end((err, res) => {
@@ -151,18 +151,18 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: '',
+          bus_id: '',
           origin: 'Lagos',
           destination: 'Osun',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: '2000',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid busId provided');
-          expect(res.body.message).to.be.equal('busId cannot be empty');
+          expect(res.body.error).to.be.equal('Invalid bus_id provided');
+          expect(res.body.message).to.be.equal('bus_id cannot be empty');
           done();
         });
     });
@@ -172,10 +172,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 1,
+          bus_id: 1,
           origin: '',
           destination: 'Osun',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: '2000',
         })
         .end((err, res) => {
@@ -193,10 +193,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 1,
+          bus_id: 1,
           origin: 'Lagos',
           destination: '',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: '2000',
         })
         .end((err, res) => {
@@ -208,24 +208,24 @@ describe('Tests for all trips Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if an admin tries to create a trip without a tripDate', (done) => {
+    it('Should return an error if an admin tries to create a trip without a trip_date', (done) => {
       chai
         .request(app)
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 1,
+          bus_id: 1,
           origin: 'Lagos',
           destination: 'Osun',
-          tripDate: '',
+          trip_date: '',
           fare: '2000',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid tripDate provided');
-          expect(res.body.message).to.be.equal('tripDate cannot be empty');
+          expect(res.body.error).to.be.equal('Invalid trip_date provided');
+          expect(res.body.message).to.be.equal('trip_date cannot be empty');
           done();
         });
     });
@@ -235,10 +235,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: '1',
+          bus_id: '1',
           origin: 'Lagos',
           destination: 'Osun',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: '',
         })
         .end((err, res) => {
@@ -256,10 +256,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 1,
+          bus_id: 1,
           origin: 'Lagos',
           destination: 'Osun',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: 'xxx',
         })
         .end((err, res) => {
@@ -277,10 +277,10 @@ describe('Tests for all trips Endpoints', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({
-          busId: 3,
+          bus_id: 3,
           origin: 'Lagos',
           destination: 'Osun',
-          tripDate: '2018-12-08',
+          trip_date: '2018-12-08',
           fare: '2000',
         })
         .end((err, res) => {

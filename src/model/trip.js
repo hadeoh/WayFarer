@@ -1,13 +1,14 @@
+/* eslint-disable camelcase */
 import db from './db';
 
 class Trip {
   static async createTrip(newTrip) {
     const {
-      busId, origin, destination, tripDate, fare,
+      bus_id, origin, destination, trip_date, fare,
     } = newTrip;
     const busQuery = `INSERT INTO trips(bus_id,origin,destination,trip_date,fare,status) 
         VALUES ($1,$2,$3,$4,$5,$6) returning *`;
-    const result = await db.query(busQuery, [busId, origin, destination, tripDate, fare, 'active']);
+    const result = await db.query(busQuery, [bus_id, origin, destination, trip_date, fare, 'active']);
     return result.rows[0];
   }
 
@@ -16,6 +17,12 @@ class Trip {
     const { rows, rowCount } = await db.query(query);
     if (rowCount > 0) return rows;
     return false;
+  }
+
+  static async getATrip(trip_id) {
+    const query = 'SELECT * FROM trips WHERE trip_id = $1';
+    const result = await db.query(query, [trip_id]);
+    return result.rows[0];
   }
 }
 

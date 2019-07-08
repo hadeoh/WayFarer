@@ -80,6 +80,24 @@ const trip3values = [
   'cancelled',
 ];
 
+const booking1values = [
+  1,
+  2,
+  3,
+];
+
+const booking2values = [
+  2,
+  2,
+  4,
+];
+
+const booking3values = [
+  1,
+  3,
+  1,
+];
+
 const createUsers = async () => {
   const query = `INSERT INTO users(first_name,last_name,email,password,is_admin) 
   VALUES ($1,$2,$3,$4,$5) RETURNING *`;
@@ -122,10 +140,25 @@ const createTrips = async () => {
     });
 };
 
+const createBookings = async () => {
+  const query = `INSERT INTO bookings(trip_id,user_id,seat_number) 
+      VALUES ($1,$2,$3) RETURNING *`;
+  await db.query(query, booking1values);
+  await db.query(query, booking2values);
+  await db.query(query, booking3values)
+    .then(() => {
+      console.log('booking created successfully');
+    })
+    .catch((err) => {
+      console.log('booking seeding failed.', err);
+    });
+};
+
 const insertData = async () => {
   await createUsers();
   await createBuses();
   await createTrips();
+  await createBookings();
 };
 
 module.exports = {
