@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Helper from '../middleware/helper';
 import User from '../model/usermodel';
 /**
@@ -25,9 +26,9 @@ class UserService {
     const user = await User.create(userObj, userType);
 
     const {
-      id, firstName, lastName, email, isAdmin,
+      id, email, is_admin,
     } = user;
-    const payLoad = { id, email, isAdmin }; // when loggin in a user
+    const payLoad = { id, email, is_admin }; // when loggin in a user
     const token = Helper.getToken(payLoad);
     delete user.password;
     user.user_id = user.id;
@@ -66,10 +67,8 @@ class UserService {
       const { id, first_name, last_name, is_admin } = foundUser;
       const payLoad = {
         id,
-        firstName: first_name,
-        lastName: last_name,
         email,
-        isAdmin: is_admin,
+        is_admin,
       };
       const token = Helper.getToken(payLoad);
       return {
@@ -77,11 +76,11 @@ class UserService {
         statuscode: 200,
         data: {
           user_id: id,
-          firstName: first_name,
-          lastName: last_name,
+          first_name,
+          last_name,
           email,
           token,
-          isAdmin: is_admin,
+          is_admin,
         },
         message: 'User Log In Successful',
       };

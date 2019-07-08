@@ -43,7 +43,7 @@ const createTableSchema = async () => {
         manufacturer TEXT NOT NULL ,
         model VARCHAR(128) NOT NULL,
         year VARCHAR(128) NOT NULL,
-        capacity NUMERIC(15,2) NOT NULL,
+        capacity INTEGER NOT NULL,
         status TEXT NOT NULL DEFAULT 'available'
         );
     CREATE TABLE trips (
@@ -59,6 +59,7 @@ const createTableSchema = async () => {
         id SERIAL PRIMARY KEY NOT NULL,
         trip_id INTEGER NOT NULL REFERENCES trips(trip_id) ON DELETE CASCADE,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        seat_number INTEGER NOT NULL,
         created_on DATE DEFAULT now()
     )
         `;

@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import userRoutes from './routes/user';
 import busRoutes from './routes/bus';
 import tripRoutes from './routes/trip';
+import bookingRoutes from './routes/booking';
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,6 +22,7 @@ app.get('/', (req, res) => res.status(200).send({
 app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/buses', busRoutes);
 app.use('/api/v1/trips', tripRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');

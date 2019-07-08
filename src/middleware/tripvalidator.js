@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable camelcase */
 import Bus from '../model/bus';
 import Trip from '../model/trip';
 import helper from './helper';
@@ -5,18 +7,18 @@ import helper from './helper';
 class TripValidation {
   static async tripCheck(req, res, next) {
     let {
-      busId, origin, destination, tripDate, fare,
+      bus_id, origin, destination, trip_date, fare,
     } = req.body;
 
     if (origin) origin = origin.trim();
     if (destination) destination = destination.trim();
-    if (tripDate) tripDate = tripDate.trim();
+    if (trip_date) trip_date = trip_date.trim();
     if (fare) fare = fare.trim();
 
-    const errors = TripValidation.inputCheck(busId, origin, destination, tripDate, fare);
+    const errors = TripValidation.inputCheck(bus_id, origin, destination, trip_date, fare);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
 
-    const result = await Bus.findBus(busId);
+    const result = await Bus.findBus(bus_id);
 
     if (result < 0) {
       return res.status(404).json({
@@ -27,7 +29,7 @@ class TripValidation {
       });
     }
 
-    const availableBus = await Bus.findAvailableBus(busId);
+    const availableBus = await Bus.findAvailableBus(bus_id);
 
 
     if (availableBus < 1) {
@@ -39,27 +41,27 @@ class TripValidation {
       });
     }
 
-    req.body.busId = busId;
+    req.body.bus_id = bus_id;
     req.body.origin = origin;
     req.body.destination = destination;
-    req.body.tripDate = tripDate;
+    req.body.trip_date = trip_date;
     req.body.fare = fare;
 
     return next();
   }
 
-  static inputCheck(busId, origin, destination, tripDate, fare) {
+  static inputCheck(bus_id, origin, destination, trip_date, fare) {
     const errors = [];
     let isEmpty;
     let hasWhiteSpace;
     let isInteger;
-    isEmpty = helper.checkFieldEmpty(busId, 'busId');
+    isEmpty = helper.checkFieldEmpty(bus_id, 'bus_id');
     if (isEmpty) errors.push(isEmpty);
 
-    hasWhiteSpace = helper.checkFieldWhiteSpace(busId, 'busId');
+    hasWhiteSpace = helper.checkFieldWhiteSpace(bus_id, 'bus_id');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
-    isInteger = helper.checkFieldNumber(busId, 'busId');
+    isInteger = helper.checkFieldNumber(bus_id, 'bus_id');
     if (isInteger) errors.push(isInteger);
 
     isEmpty = helper.checkFieldEmpty(origin, 'origin');
@@ -74,10 +76,10 @@ class TripValidation {
     hasWhiteSpace = helper.checkFieldWhiteSpace(destination, 'destination');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
-    isEmpty = helper.checkFieldEmpty(tripDate, 'tripDate');
+    isEmpty = helper.checkFieldEmpty(trip_date, 'trip_date');
     if (isEmpty) errors.push(isEmpty);
 
-    hasWhiteSpace = helper.checkFieldWhiteSpace(tripDate, 'tripDate');
+    hasWhiteSpace = helper.checkFieldWhiteSpace(trip_date, 'trip_date');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
     isEmpty = helper.checkFieldEmpty(fare, 'fare');

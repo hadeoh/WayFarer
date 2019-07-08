@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import User from '../model/usermodel';
 import helper from './helper';
 
@@ -18,16 +19,16 @@ class UserValidation {
    */
   static async signUpCheck(req, res, next) {
     let {
-      email, firstName, lastName, password, confirmPassword,
+      email, first_name, last_name, password, confirm_password,
     } = req.body;
 
-    if (firstName) firstName = firstName.trim();
-    if (lastName) lastName = lastName.trim();
+    if (first_name) first_name = first_name.trim();
+    if (last_name) last_name = last_name.trim();
     if (email) email = email.trim();
     if (password) password = password.trim();
-    if (confirmPassword) confirmPassword = confirmPassword.trim();
+    if (confirm_password) confirm_password = confirm_password.trim();
 
-    const errors = UserValidation.inputCheck(email, firstName, lastName, password, confirmPassword);
+    const errors = UserValidation.inputCheck(email, first_name, last_name, password, confirm_password);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
 
     const isInvalid = helper.validateEmail(email);
@@ -55,7 +56,7 @@ class UserValidation {
       });
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirm_password) {
       return res.status(422).json({
         status: 'error',
         statuscode: 422,
@@ -64,8 +65,8 @@ class UserValidation {
       });
     }
 
-    req.body.firstName = firstName;
-    req.body.lastName = lastName;
+    req.body.first_name = first_name;
+    req.body.last_name = last_name;
     req.body.password = password;
     req.body.email = email;
 
@@ -108,34 +109,34 @@ class UserValidation {
    * Runs a check on the fields provided and returns appropriate errors if any
    * @static
    * @param {string} email
-   * @param {string} firstName
-   * @param {string} lastName
+   * @param {string} first_name
+   * @param {string} last_name
    * @param {string} password
    * @param {string} type
    * @returns {Array} an array of error(s)
    * @memberof UserValidation
    */
-  static inputCheck(email, firstName, lastName, password, confirmPassword) {
+  static inputCheck(email, first_name, last_name, password, confirm_password) {
     const errors = [];
     let isEmpty;
     let hasWhiteSpace;
-    isEmpty = helper.checkFieldEmpty(firstName, 'firstName');
+    isEmpty = helper.checkFieldEmpty(first_name, 'first_name');
     if (isEmpty) errors.push(isEmpty);
 
-    hasWhiteSpace = helper.checkFieldWhiteSpace(firstName, 'firstname');
+    hasWhiteSpace = helper.checkFieldWhiteSpace(first_name, 'first_name');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
     let isNotAlpha;
-    isNotAlpha = helper.checkFieldAlpha(firstName, 'firstName');
+    isNotAlpha = helper.checkFieldAlpha(first_name, 'first_name');
     if (isNotAlpha) errors.push(isNotAlpha);
 
-    isEmpty = helper.checkFieldEmpty(lastName, 'lastName');
+    isEmpty = helper.checkFieldEmpty(last_name, 'last_name');
     if (isEmpty) errors.push(isEmpty);
 
-    hasWhiteSpace = helper.checkFieldWhiteSpace(lastName, 'lastname');
+    hasWhiteSpace = helper.checkFieldWhiteSpace(last_name, 'last_name');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
-    isNotAlpha = helper.checkFieldAlpha(lastName, 'lastName');
+    isNotAlpha = helper.checkFieldAlpha(last_name, 'last_name');
     if (isNotAlpha) errors.push(isNotAlpha);
 
     isEmpty = helper.checkFieldEmpty(email, 'email');
@@ -150,7 +151,7 @@ class UserValidation {
     hasWhiteSpace = helper.checkFieldWhiteSpace(password, 'password');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
-    isEmpty = helper.checkFieldEmpty(confirmPassword, 'confirmPassword');
+    isEmpty = helper.checkFieldEmpty(confirm_password, 'confirm_password');
     if (isEmpty) errors.push(isEmpty);
 
     return errors;

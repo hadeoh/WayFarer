@@ -29,11 +29,11 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'ifeoluwa',
-          lastName: 'matthew',
+          first_name: 'ifeoluwa',
+          last_name: 'matthew',
           email: 'ife12@gmail.com',
           password: 'yh89uyightGH',
-          confirmPassword: 'yh89uyightGH',
+          confirm_password: 'yh89uyightGH',
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -50,13 +50,13 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if a user tries to sign up without a firstname', (done) => {
+    it('Should return an error if a user tries to sign up without a first_name', (done) => {
       chai
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: '',
-          lastName: 'bellion',
+          first_name: '',
+          last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
           type: 'staff',
@@ -65,18 +65,18 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid firstName provided');
-          expect(res.body.message).to.be.equal('firstName cannot be empty');
+          expect(res.body.error).to.be.equal('Invalid first_name provided');
+          expect(res.body.message).to.be.equal('first_name cannot be empty');
           done();
         });
     });
-    it('Should return an error if a user tries to sign up without a lastname', (done) => {
+    it('Should return an error if a user tries to sign up without a last_name', (done) => {
       chai
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: '',
+          first_name: 'jon',
+          last_name: '',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
         })
@@ -84,8 +84,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid lastName provided');
-          expect(res.body.message).to.be.equal('lastName cannot be empty');
+          expect(res.body.error).to.be.equal('Invalid last_name provided');
+          expect(res.body.message).to.be.equal('last_name cannot be empty');
           done();
         });
     });
@@ -94,8 +94,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: 'bellion',
+          first_name: 'jon',
+          last_name: 'bellion',
           email: '',
           password: 'simpleandweet',
         })
@@ -113,8 +113,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: 'bellion',
+          first_name: 'jon',
+          last_name: 'bellion',
           email: 'jon@gmail.com',
           password: '',
         })
@@ -132,11 +132,11 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: 'bellion',
+          first_name: 'jon',
+          last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpl',
-          confirmPassword: 'simpl',
+          confirm_password: 'simpl',
         })
         .end((err, res) => {
           expect(res).to.have.status(406);
@@ -147,43 +147,43 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if a user tries to sign up with a non-alpabetic firstname', (done) => {
+    it('Should return an error if a user tries to sign up with a non-alpabetic first_name', (done) => {
       chai
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: '..',
-          lastName: 'bellion',
+          first_name: '..',
+          last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
-          confirmPassword: 'simpleandweet',
+          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid firstName provided');
-          expect(res.body.message).to.be.equal('firstName must contain only alphabets');
+          expect(res.body.error).to.be.equal('Invalid first_name provided');
+          expect(res.body.message).to.be.equal('first_name must contain only alphabets');
           done();
         });
     });
-    it('Should return an error if a user tries to sign up with a non-alpabetic lastname', (done) => {
+    it('Should return an error if a user tries to sign up with a non-alpabetic last_name', (done) => {
       chai
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: '.@',
+          first_name: 'jon',
+          last_name: '.@',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
-          confirmPassword: 'simpleandweet',
+          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid lastName provided');
-          expect(res.body.message).to.be.equal('lastName must contain only alphabets');
+          expect(res.body.error).to.be.equal('Invalid last_name provided');
+          expect(res.body.message).to.be.equal('last_name must contain only alphabets');
           done();
         });
     });
@@ -193,11 +193,11 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: 'bellion',
+          first_name: 'jon',
+          last_name: 'bellion',
           email: 'jongmail.com',
           password: 'simpleandweet',
-          confirmPassword: 'simpleandweet',
+          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -213,11 +213,11 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'jon',
-          lastName: 'bellion',
+          first_name: 'jon',
+          last_name: 'bellion',
           email: 'ojematthew@gmail.com',
           password: 'simpleandweet',
-          confirmPassword: 'simpleandweet',
+          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(409);
@@ -245,10 +245,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           expect(res.body.data).to.have.key(
             'token',
             'user_id',
-            'firstName',
-            'lastName',
+            'first_name',
+            'last_name',
             'email',
-            'isAdmin',
+            'is_admin',
           );
           done();
         });
