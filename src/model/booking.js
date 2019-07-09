@@ -18,6 +18,18 @@ class Booking {
     const { rows } = await db.query(query, [id]);
     return rows[0];
   }
+
+  static async getAllBookings() {
+    const query = 'SELECT bookings.id AS booking_id,bookings.user_id,bookings.trip_id, trips.bus_id, trips.trip_date,bookings.seat_number,users.first_name,users.last_name,users.email FROM bookings INNER JOIN users ON bookings.user_id = users.id INNER JOIN trips on bookings.trip_id = trips.trip_id';
+    const result = await db.query(query);
+    return result.rows;
+  }
+
+  static async getAllUserbookings(user_id) {
+    const query = 'SELECT bookings.id AS booking_id,bookings.user_id,bookings.trip_id, trips.bus_id, trips.trip_date,bookings.seat_number,users.first_name,users.last_name,users.email FROM bookings INNER JOIN users ON bookings.user_id = users.id INNER JOIN trips on bookings.trip_id = trips.trip_id WHERE user_id = $1';
+    const result = await db.query(query, [user_id]);
+    return result.rows;
+  }
 }
 
 export default Booking;
