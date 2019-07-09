@@ -213,82 +213,86 @@ describe('Tests for all trips Endpoints', () => {
     });
   });
 
-//   describe('POST api/v1/trips', () => {
-//     it('Should successfully get trips', (done) => {
-//       chai
-//         .request(app)
-//         .get('/api/v1/trips')
-//         .set('Authorization', `Bearer ${adminToken}`)
-//         .end((err, res) => {
-//           expect(res).to.have.status(200);
-//           expect(res.body.statuscode).to.be.equal(200);
-//           expect(res.body.status).to.be.equal('success');
-//           expect(res.body.data[0]).to.have.keys(
-//             'trip_id',
-//             'bus_id',
-//             'origin',
-//             'destination',
-//             'trip_date',
-//             'fare',
-//             'status',
-//           );
-//           done();
-//         });
-//     });
-//     it('Should return error when no token is supplied to get trips', (done) => {
-//       chai
-//         .request(app)
-//         .get('/api/v1/trips')
-//         .set('Authorization', `Bearer ${''}`)
-//         .end((err, res) => {
-//           expect(res).to.have.status(401);
-//           expect(res.body.statuscode).to.be.equal(401);
-//           expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
-//           expect(res.body).to.have.keys(
-//             'status',
-//             'statuscode',
-//             'error',
-//           );
-//           done();
-//         });
-//     });
-//     it('Should return error when a wrong token is supplied to get trips', (done) => {
-//       chai
-//         .request(app)
-//         .get('/api/v1/trips')
-//         .set('Authorization', `Bearer ${abc}`)
-//         .end((err, res) => {
-//           expect(res).to.have.status(401);
-//           expect(res.body.statuscode).to.be.equal(401);
-//           expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
-//           expect(res.body).to.have.keys(
-//             'status',
-//             'statuscode',
-//             'error',
-//           );
-//           done();
-//         });
-//     });
-//     it('Should successfully get all trips', (done) => {
-//       chai
-//         .request(app)
-//         .get('/api/v1/trips')
-//         .set('Authorization', `Bearer ${userToken}`)
-//         .end((err, res) => {
-//           expect(res).to.have.status(200);
-//           expect(res.body.statuscode).to.be.equal(200);
-//           expect(res.body.status).to.be.equal('success');
-//           expect(res.body.data[0]).to.have.keys(
-//             'trip_id',
-//             'bus_id',
-//             'origin',
-//             'destination',
-//             'trip_date',
-//             'fare',
-//             'status',
-//           );
-//           done();
-//         });
-//     });
-//   });
+  describe('GET api/v1/bookings', () => {
+    it('Should successfully get all bookings', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/bookings')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.statuscode).to.be.equal(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data[0]).to.have.keys(
+            'booking_id',
+            'user_id',
+            'trip_id',
+            'bus_id',
+            'trip_date',
+            'seat_number',
+            'first_name',
+            'last_name',
+            'email',
+          );
+          done();
+        });
+    });
+    it('Should return error when no token is supplied to get bookings', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/bookings')
+        .set('Authorization', `Bearer ${''}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a wrong token is supplied to get bookings', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/bookings')
+        .set('Authorization', `Bearer ${abc}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should successfully get all of his/her bookings', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/bookings')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.statuscode).to.be.equal(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data[0]).to.have.keys(
+            'booking_id',
+            'user_id',
+            'trip_id',
+            'bus_id',
+            'trip_date',
+            'seat_number',
+            'first_name',
+            'last_name',
+            'email',
+          );
+          done();
+        });
+    });
+  });
 });
