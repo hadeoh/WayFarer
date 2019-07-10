@@ -12,6 +12,7 @@ chai.use(chaiHttp);
 describe('Tests for all trips Endpoints', () => {
   let adminToken;
   let userToken;
+  let secondUserToken;
   let abc;
   before((done) => {
     chai
@@ -24,6 +25,24 @@ describe('Tests for all trips Endpoints', () => {
       .end((err, res) => {
         const { token } = res.body.data;
         adminToken = token;
+        done(err);
+      });
+  });
+
+  before((done) => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        first_name: 'Usman',
+        last_name: 'adio',
+        email: 'usthmandan@gmail.com',
+        password: 'modupeola',
+        confirm_password: 'modupeola',
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        secondUserToken = token;
         done(err);
       });
   });
@@ -291,6 +310,67 @@ describe('Tests for all trips Endpoints', () => {
             'last_name',
             'email',
           );
+          done();
+        });
+    });
+  });
+
+  describe('DELETE api/v1/bookings/:id', () => {
+    it('Should return an error if an admin is trying to delete a booking', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
+          expect(res.body.error).to.be.equal('Unauthorized action!');
+          expect(res.body.message).to.be.equal('Only users can perform this action');
+          done();
+        });
+    });
+    it('Should delete an existing booking if authorized', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.statuscode).to.be.equal(200);
+          expect(res.body).to.have.keys('status', 'statuscode', 'data');
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.keys('message');
+          expect(res.body.data.message).to.be.equal('Booking deleted successfully');
+          done();
+        });
+    });
+    it('Should return an error if a user tries to delete a non-existent booking', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/11')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body).to.have.keys('status', 'error', 'message', 'statuscode');
+          expect(res.body.message).to.be.equal('There is no such booking available for you');
+          done();
+        });
+    });
+    it('Should return an error if a user with no booking is trying to delete a booking', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${secondUserToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.error).to.be.equal('Not found');
+          expect(res.body.message).to.be.equal('There are no bookings available for you');
           done();
         });
     });

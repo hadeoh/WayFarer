@@ -18,6 +18,15 @@ class BookingController {
       return next(e);
     }
   }
+
+  static async deleteBooking(req, res, next) {
+    try {
+      const response = await BookingService.deleteBooking(req);
+      return res.status(response.statuscode).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 export default BookingController;
