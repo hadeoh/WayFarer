@@ -30,6 +30,19 @@ class Booking {
     const result = await db.query(query, [user_id]);
     return result.rows;
   }
+
+  static async getUserBookings(req) {
+    const query = 'SELECT * FROM bookings WHERE user_id = $1';
+    const result = await db.query(query, [req.userId]);
+    return result.rows;
+  }
+
+  static async deleteBooking(id) {
+    const query = 'DELETE FROM bookings WHERE id = $1 RETURNING *';
+    const { rowCount } = await db.query(query, [id]);
+    if (rowCount > 0) return true;
+    return false;
+  }
 }
 
 export default Booking;

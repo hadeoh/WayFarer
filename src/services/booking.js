@@ -45,7 +45,7 @@ class BookingService {
           status: 'error',
           statuscode: 404,
           error: 'Not found',
-          message: 'There is no trip available',
+          message: 'There is no booking available',
         };
       }
       bookings.booking_id = bookings.id;
@@ -65,7 +65,7 @@ class BookingService {
           status: 'error',
           statuscode: 404,
           error: 'Not found',
-          message: 'There is no trip available',
+          message: 'There is no booking available',
         };
       }
       return {
@@ -76,6 +76,34 @@ class BookingService {
         },
       };
     }
+  }
+
+  static async deleteBooking(req) {
+    const foundBooking = await Booking.getUserBookings(req);
+    if (foundBooking.length < 1) {
+      return {
+        status: 'error',
+        statuscode: 404,
+        error: 'Not found',
+        message: 'There are no bookings available for you',
+      };
+    }
+    const deleteBooking = await Booking.deleteBooking(req.params.id);
+    if (deleteBooking < 1) {
+      return {
+        status: 'error',
+        statuscode: 404,
+        error: 'Not found',
+        message: 'There is no such booking available for you',
+      };
+    }
+    return {
+      status: 'success',
+      statuscode: 200,
+      data: {
+        message: 'Booking deleted successfully',
+      },
+    };
   }
 }
 
