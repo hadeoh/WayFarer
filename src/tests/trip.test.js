@@ -372,4 +372,112 @@ describe('Tests for all trips Endpoints', () => {
         });
     });
   });
+  describe('PATCH api/v1/trips/:tripId', () => {
+    it('Should successfully cancel a trip', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/1')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(202);
+          expect(res.body.statuscode).to.be.equal(202);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.keys('message');
+          expect(res.body.data.message).to.be.equal('Trip cancelled successfully');
+          done();
+        });
+    });
+    it('Should return error when no token is supplied to cancel a trip', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/1')
+        .set('Authorization', `Bearer ${''}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a wrong token is supplied to cancel a trip', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/1')
+        .set('Authorization', `Bearer ${abc}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a user tries to cancel a trip', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/1')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('Unauthorized action!');
+          expect(res.body.message).to.be.equal('Only admins can perform this action');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+            'message',
+          );
+          done();
+        });
+    });
+    it('Should return error if a trip has already been cancelled', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/1')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(409);
+          expect(res.body.statuscode).to.be.equal(409);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.message).to.be.equal('This trip has been cancelled already');
+          expect(res.body).to.have.keys(
+            'error',
+            'status',
+            'statuscode',
+            'message',
+          );
+          done();
+        });
+    });
+    it('Should return error if a trip that does not exist is to be cancelled', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/trips/11')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.error).to.be.equal('Not Found');
+          expect(res.body.message).to.be.equal('Trip does not exist');
+          expect(res.body).to.have.keys(
+            'error',
+            'status',
+            'statuscode',
+            'message',
+          );
+          done();
+        });
+    });
+  });
 });

@@ -24,6 +24,12 @@ class Trip {
     const result = await db.query(query, [trip_id]);
     return result.rows[0];
   }
+
+  static async update(status, tripId) {
+    const query = 'UPDATE trips SET status = $1 where trip_id = $2';
+    const result = await db.query(query, [status, tripId]);
+    return result.rows;
+  }
 }
 
 export default Trip;

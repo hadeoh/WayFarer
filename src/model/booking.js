@@ -37,11 +37,10 @@ class Booking {
     return result.rows;
   }
 
-  static async deleteBooking(id) {
+  static async deleteBooking(bookingId) {
     const query = 'DELETE FROM bookings WHERE id = $1 RETURNING *';
-    const { rowCount } = await db.query(query, [id]);
-    if (rowCount > 0) return true;
-    return false;
+    const result = await db.query(query, [bookingId]);
+    return result.rows;
   }
 }
 

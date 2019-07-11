@@ -36,6 +36,34 @@ class TripService {
       },
     };
   }
+
+  static async updateTripStatus(tripId) {
+    const foundTrip = await Trip.getATrip(tripId, 'trip_id');
+    if (!foundTrip) {
+      return {
+        statuscode: 404,
+        status: 'error',
+        error: 'Not Found',
+        message: 'Trip does not exist',
+      };
+    }
+    if (foundTrip.status === 'cancelled') {
+      return {
+        statuscode: 409,
+        status: 'error',
+        error: 'Conflict',
+        message: 'This trip has been cancelled already',
+      };
+    }
+    if (foundTrip) {
+      await Trip.update('cancelled', tripId);
+      return {
+        statuscode: 202,
+        status: 'success',
+        data: { message: 'Trip cancelled successfully' },
+      };
+    }
+  }
 }
 
 export default TripService;

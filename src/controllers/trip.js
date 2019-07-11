@@ -18,6 +18,15 @@ class TripController {
       return next(e);
     }
   }
+
+  static async updateTripStatus(req, res, next) {
+    try {
+      const response = await TripService.updateTripStatus(req.params.tripId);
+      return res.status(response.statuscode).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 export default TripController;
