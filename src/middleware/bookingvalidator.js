@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
 /* eslint-disable camelcase */
-import Booking from '../model/booking';
 import helper from './helper';
 
 class BookingValidation {

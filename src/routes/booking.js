@@ -11,6 +11,6 @@ const bookingRouter = Router();
 
 bookingRouter.post('/', getUser, notAdminCheck, bookingCheck, createBooking);
 bookingRouter.get('/', getUser, getAllBookings);
-bookingRouter.delete('/:id', getUser, notAdminCheck, deleteBooking);
+bookingRouter.delete('/:bookingId', getUser, notAdminCheck, deleteBooking);
 
 export default bookingRouter;

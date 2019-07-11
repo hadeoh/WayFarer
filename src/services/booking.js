@@ -88,7 +88,7 @@ class BookingService {
         message: 'There are no bookings available for you',
       };
     }
-    const deleteBooking = await Booking.deleteBooking(req.params.id);
+    const deleteBooking = await Booking.deleteBooking(req.params.bookingId);
     if (deleteBooking < 1) {
       return {
         status: 'error',

@@ -315,7 +315,7 @@ describe('Tests for all trips Endpoints', () => {
     });
   });
 
-  describe('DELETE api/v1/bookings/:id', () => {
+  describe('DELETE api/v1/bookings/:bookingId', () => {
     it('Should return an error if an admin is trying to delete a booking', (done) => {
       chai
         .request(app)
