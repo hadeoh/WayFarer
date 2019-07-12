@@ -59,7 +59,7 @@ const createTableSchema = async () => {
         id SERIAL PRIMARY KEY NOT NULL,
         trip_id INTEGER NOT NULL REFERENCES trips(trip_id) ON DELETE CASCADE,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        seat_number INTEGER NOT NULL,
+        seat_number INTEGER,
         created_on TIMESTAMP DEFAULT now(),
         modified_on TIMESTAMP
     )`;

@@ -15,16 +15,14 @@ class User {
      * @returns {object} result of stored data in database
      * @memberof User
      */
-  static async create(newUser, userType) {
-    const { email, first_name, last_name, hashedpassword } = newUser;
-    let query;
-    let result;
-    switch (userType) {
-      case 'user':
-        query = `INSERT INTO users(first_name,last_name,email,password)
+  static async create(newUser) {
+    const {
+      email, first_name, last_name, hashedpassword,
+    } = newUser;
+
+    const query = `INSERT INTO users(first_name,last_name,email,password)
         VALUES ($1,$2,$3,$4) returning *`;
-        result = await db.query(query, [first_name, last_name, email, hashedpassword]);
-    }
+    const result = await db.query(query, [first_name, last_name, email, hashedpassword]);
     return result.rows[0];
   }
 

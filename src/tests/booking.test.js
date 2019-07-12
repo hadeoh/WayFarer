@@ -38,7 +38,6 @@ describe('Tests for all bookings Endpoints', () => {
         last_name: 'adio',
         email: 'usthmandan@gmail.com',
         password: 'modupeola',
-        confirm_password: 'modupeola',
       })
       .end((err, res) => {
         const { token } = res.body.data;
@@ -177,7 +176,7 @@ describe('Tests for all bookings Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if a user tries to create a trip without a seat number', (done) => {
+    it('Should return an error if a user tries to create a trip with a seat number which is not a number', (done) => {
       chai
         .request(app)
         .post('/api/v1/bookings')
@@ -191,7 +190,7 @@ describe('Tests for all bookings Endpoints', () => {
           expect(res.body.statuscode).to.be.equal(422);
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
           expect(res.body.error).to.be.equal('Invalid seat_number provided');
-          expect(res.body.message).to.be.equal('seat_number cannot be empty');
+          expect(res.body.message).to.be.equal('seat_number must contain only numbers');
           done();
         });
     });

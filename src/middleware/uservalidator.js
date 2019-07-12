@@ -19,16 +19,15 @@ class UserValidation {
    */
   static async signUpCheck(req, res, next) {
     let {
-      email, first_name, last_name, password, confirm_password,
+      email, first_name, last_name, password,
     } = req.body;
 
     if (first_name) first_name = first_name.trim();
     if (last_name) last_name = last_name.trim();
     if (email) email = email.trim();
     if (password) password = password.trim();
-    if (confirm_password) confirm_password = confirm_password.trim();
 
-    const errors = UserValidation.inputCheck(email, first_name, last_name, password, confirm_password);
+    const errors = UserValidation.inputCheck(email, first_name, last_name, password);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
 
     const isInvalid = helper.validateEmail(email);
@@ -53,15 +52,6 @@ class UserValidation {
         statuscode: 406,
         error: 'Invalid password provided',
         message: 'Password must not be less than six(6) characters',
-      });
-    }
-
-    if (password !== confirm_password) {
-      return res.status(422).json({
-        status: 'error',
-        statuscode: 422,
-        error: 'Invalid password provided',
-        message: 'Passwords do not match',
       });
     }
 
@@ -116,7 +106,7 @@ class UserValidation {
    * @returns {Array} an array of error(s)
    * @memberof UserValidation
    */
-  static inputCheck(email, first_name, last_name, password, confirm_password) {
+  static inputCheck(email, first_name, last_name, password) {
     const errors = [];
     let isEmpty;
     let hasWhiteSpace;
@@ -150,9 +140,6 @@ class UserValidation {
 
     hasWhiteSpace = helper.checkFieldWhiteSpace(password, 'password');
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
-
-    isEmpty = helper.checkFieldEmpty(confirm_password, 'confirm_password');
-    if (isEmpty) errors.push(isEmpty);
 
     return errors;
   }
