@@ -38,7 +38,7 @@ class TripService {
   }
 
   static async updateTripStatus(tripId) {
-    const foundTrip = await Trip.getATrip(tripId, 'trip_id');
+    const foundTrip = await Trip.getATrip(tripId, 'id');
     if (!foundTrip) {
       return {
         statuscode: 404,
