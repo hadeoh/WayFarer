@@ -105,6 +105,35 @@ class BookingService {
       },
     };
   }
+
+  static async changeSeat(req) {
+    const foundBooking = await Booking.getUserBookings(req);
+    if (foundBooking.length < 1) {
+      return {
+        status: 'error',
+        statuscode: 404,
+        error: 'Not found',
+        message: 'There are no bookings available for you',
+      };
+    }
+    const result = await Booking.changeSeat(req.body.seat_number, new Date(), req.params.bookingId, req.userId);
+    if (result.length < 1) {
+      return {
+        status: 'error',
+        statuscode: 404,
+        error: 'Booking not found',
+        message: 'Please pick another booking',
+      };
+    }
+    return {
+      status: 'success',
+      statuscode: 200,
+      message: 'Seat number successfully changed',
+      data: {
+        booking: result[0],
+      },
+    };
+  }
 }
 
 export default BookingService;

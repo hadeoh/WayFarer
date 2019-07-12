@@ -60,9 +60,9 @@ const createTableSchema = async () => {
         trip_id INTEGER NOT NULL REFERENCES trips(trip_id) ON DELETE CASCADE,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         seat_number INTEGER NOT NULL,
-        created_on DATE DEFAULT now()
-    )
-        `;
+        created_on TIMESTAMP DEFAULT now(),
+        modified_on TIMESTAMP
+    )`;
   await pool.query(sqlText);
   pool.end();
 };

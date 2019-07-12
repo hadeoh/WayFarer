@@ -42,6 +42,30 @@ class BookingValidation {
 
     return errors;
   }
+
+  static async seatCheck(req, res, next) {
+    let { seat_number } = req.body;
+
+    const errors = [];
+
+    let isEmpty;
+    let hasWhiteSpace;
+    let isInteger;
+    isEmpty = helper.checkFieldEmpty(seat_number, 'seat_number');
+    if (isEmpty) errors.push(isEmpty);
+
+    hasWhiteSpace = helper.checkFieldWhiteSpace(seat_number, 'seat_number');
+    if (hasWhiteSpace) errors.push(hasWhiteSpace);
+
+    isInteger = helper.checkFieldNumber(seat_number, 'seat_number');
+    if (isInteger) errors.push(isInteger);
+
+
+    if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
+
+    req.body.seat_number = seat_number;
+    return next();
+  }
 }
 
 export default BookingValidation;
