@@ -9,7 +9,7 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 
-describe('Tests for all trips Endpoints', () => {
+describe('Tests for all bookings Endpoints', () => {
   let adminToken;
   let userToken;
   let secondUserToken;
@@ -85,6 +85,7 @@ describe('Tests for all trips Endpoints', () => {
             'user_id',
             'seat_number',
             'created_on',
+            'modified_on',
             'booking_id',
           );
           done();
@@ -359,11 +360,167 @@ describe('Tests for all trips Endpoints', () => {
           done();
         });
     });
+    it('Should return error when no token is supplied to delete a booking', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${''}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a wrong token is supplied to delete a booking', (done) => {
+      chai
+        .request(app)
+        .delete('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${abc}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
     it('Should return an error if a user with no booking is trying to delete a booking', (done) => {
       chai
         .request(app)
         .delete('/api/v1/bookings/3')
         .set('Authorization', `Bearer ${secondUserToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.error).to.be.equal('Not found');
+          expect(res.body.message).to.be.equal('There are no bookings available for you');
+          done();
+        });
+    });
+  });
+
+  describe('PATCH api/v1/bookings/:bookingId', () => {
+    it('Should return an error if an admin is trying to change the seat number of a booking', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({
+          seat_number: 4,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
+          expect(res.body.error).to.be.equal('Unauthorized action!');
+          expect(res.body.message).to.be.equal('Only users can perform this action');
+          done();
+        });
+    });
+    it('Should return error when no token is supplied to change a seat number of a booking', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${''}`)
+        .send({
+          seat_number: 4,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a wrong token is supplied to create a booking', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${abc}`)
+        .send({
+          seat_number: 4,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should change an existing seat number if authorized', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/4')
+        .set('Authorization', `Bearer ${userToken}`)
+        .send({
+          seat_number: 4,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.statuscode).to.be.equal(200);
+          expect(res.body).to.have.keys('status', 'statuscode', 'message', 'data');
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.keys('booking');
+          expect(res.body.data.booking).to.have.keys(
+            'id',
+            'trip_id',
+            'user_id',
+            'seat_number',
+            'created_on',
+            'modified_on',
+          );
+          expect(res.body.message).to.be.equal('Seat number successfully changed');
+          done();
+        });
+    });
+    it('Should return an error if a user tries to change seat number of a non-existent booking', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/11')
+        .set('Authorization', `Bearer ${userToken}`)
+        .send({
+          seat_number: 4,
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body).to.have.keys('status', 'error', 'message', 'statuscode');
+          expect(res.body.error).to.be.equal('Booking not found');
+          expect(res.body.message).to.be.equal('Please pick another booking');
+          done();
+        });
+    });
+    it('Should return an error if a user with no booking is trying to change the seat number of a booking', (done) => {
+      chai
+        .request(app)
+        .patch('/api/v1/bookings/3')
+        .set('Authorization', `Bearer ${secondUserToken}`)
+        .send({
+          seat_number: 4,
+        })
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.statuscode).to.be.equal(404);

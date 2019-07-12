@@ -1,7 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable camelcase */
 import Bus from '../model/bus';
-import Trip from '../model/trip';
 import helper from './helper';
 
 class TripValidation {

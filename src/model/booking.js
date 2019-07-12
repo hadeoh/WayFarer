@@ -13,9 +13,15 @@ class Booking {
     return result.rows[0];
   }
 
-  static async findBooking(id) {
+  static async findBooking(bookingId) {
     const query = 'SELECT * FROM bookings WHERE id = $1';
-    const { rows } = await db.query(query, [id]);
+    const { rows } = await db.query(query, [bookingId]);
+    return rows[0];
+  }
+
+  static async findBookingSeat(seat_number) {
+    const query = 'SELECT * FROM bookings WHERE seat_number = $1';
+    const { rows } = await db.query(query, [seat_number]);
     return rows[0];
   }
 
@@ -40,6 +46,12 @@ class Booking {
   static async deleteBooking(bookingId) {
     const query = 'DELETE FROM bookings WHERE id = $1 RETURNING *';
     const result = await db.query(query, [bookingId]);
+    return result.rows;
+  }
+
+  static async changeSeat(seat_number, modified_on, bookingId, user_id) {
+    const query = 'UPDATE bookings SET seat_number = $1, modified_on = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
+    const result = await db.query(query, [seat_number, modified_on, bookingId, user_id]);
     return result.rows;
   }
 }
