@@ -33,7 +33,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: 'matthew',
           email: 'ife12@gmail.com',
           password: 'yh89uyightGH',
-          confirm_password: 'yh89uyightGH',
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -59,7 +58,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
-          type: 'staff',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -136,7 +134,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpl',
-          confirm_password: 'simpl',
         })
         .end((err, res) => {
           expect(res).to.have.status(406);
@@ -156,7 +153,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: 'bellion',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
-          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -176,7 +172,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: '.@',
           email: 'jon@gmail.com',
           password: 'simpleandweet',
-          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -197,7 +192,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           last_name: 'bellion',
           email: 'jongmail.com',
           password: 'simpleandweet',
-          confirm_password: 'simpleandweet',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);

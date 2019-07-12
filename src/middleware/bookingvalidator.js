@@ -17,7 +17,7 @@ class BookingValidation {
     return next();
   }
 
-  static inputCheck(trip_id, seat_number) {
+  static inputCheck(trip_id) {
     const errors = [];
     let isEmpty;
     let hasWhiteSpace;
@@ -29,15 +29,6 @@ class BookingValidation {
     if (hasWhiteSpace) errors.push(hasWhiteSpace);
 
     isInteger = helper.checkFieldNumber(trip_id, 'trip_id');
-    if (isInteger) errors.push(isInteger);
-
-    isEmpty = helper.checkFieldEmpty(seat_number, 'seat_number');
-    if (isEmpty) errors.push(isEmpty);
-
-    hasWhiteSpace = helper.checkFieldWhiteSpace(seat_number, 'seat_number');
-    if (hasWhiteSpace) errors.push(hasWhiteSpace);
-
-    isInteger = helper.checkFieldNumber(seat_number, 'seat_number');
     if (isInteger) errors.push(isInteger);
 
     return errors;
