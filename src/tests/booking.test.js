@@ -176,24 +176,6 @@ describe('Tests for all bookings Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if a user tries to create a trip with a seat number which is not a number', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/bookings')
-        .set('Authorization', `Bearer ${userToken}`)
-        .send({
-          trip_id: 3,
-          seat_number: '',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.statuscode).to.be.equal(422);
-          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid seat_number provided');
-          expect(res.body.message).to.be.equal('seat_number must contain only numbers');
-          done();
-        });
-    });
     it('Should return an error if a user tries to create a trip with a non-numeric trip_id', (done) => {
       chai
         .request(app)
@@ -209,24 +191,6 @@ describe('Tests for all bookings Endpoints', () => {
           expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
           expect(res.body.error).to.be.equal('Invalid trip_id provided');
           expect(res.body.message).to.be.equal('trip_id must contain only numbers');
-          done();
-        });
-    });
-    it('Should return an error if a user tries to create a trip with a non-numeric seat_nnumber', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/bookings')
-        .set('Authorization', `Bearer ${userToken}`)
-        .send({
-          trip_id: 3,
-          seat_number: 'xxx',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.statuscode).to.be.equal(422);
-          expect(res.body).to.have.keys('status', 'statuscode', 'error', 'message');
-          expect(res.body.error).to.be.equal('Invalid seat_number provided');
-          expect(res.body.message).to.be.equal('seat_number must contain only numbers');
           done();
         });
     });
