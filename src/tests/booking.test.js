@@ -85,7 +85,7 @@ describe('Tests for all bookings Endpoints', () => {
             'seat_number',
             'created_on',
             'modified_on',
-            'booking_id',
+            'id',
           );
           done();
         });

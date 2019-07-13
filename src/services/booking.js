@@ -15,8 +15,6 @@ class BookingService {
       error: 'There is no such trip available',
     };
     const booking = await Booking.createBooking(req);
-    booking.booking_id = booking.id;
-    delete booking.id;
     foundUser.user_id = foundUser.id;
     delete foundUser.id;
     delete foundUser.password;
