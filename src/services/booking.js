@@ -21,6 +21,7 @@ class BookingService {
     delete foundUser.id;
     delete foundUser.password;
     delete foundUser.is_admin;
+    delete foundTrip.id;
     delete foundTrip.status;
     delete foundTrip.origin;
     delete foundTrip.destination;
