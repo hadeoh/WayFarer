@@ -37,6 +37,25 @@ class TripService {
     };
   }
 
+  static async getTripsDestination(destination) {
+    const trip = await Trip.getTripsDestination(destination);
+    if (trip < 1) {
+      return {
+        status: 'error',
+        statuscode: 404,
+        error: 'Not found',
+        message: 'There is no trip available',
+      };
+    }
+    return {
+      status: 'success',
+      statuscode: 200,
+      data: {
+        ...trip,
+      },
+    };
+  }
+
   static async updateTripStatus(tripId) {
     const foundTrip = await Trip.getATrip(tripId, 'id');
     if (!foundTrip) {

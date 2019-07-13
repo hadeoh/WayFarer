@@ -294,7 +294,7 @@ describe('Tests for all trips Endpoints', () => {
     });
   });
 
-  describe('POST api/v1/trips', () => {
+  describe('GET api/v1/trips', () => {
     it('Should successfully get trips', (done) => {
       chai
         .request(app)
@@ -372,6 +372,102 @@ describe('Tests for all trips Endpoints', () => {
         });
     });
   });
+
+  describe('GET api/v1/trips/:destination', () => {
+    it('Should successfully get trips based on destination', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/trips/Oyo')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.statuscode).to.be.equal(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data[0]).to.have.keys(
+            'id',
+            'bus_id',
+            'origin',
+            'destination',
+            'trip_date',
+            'fare',
+            'status',
+          );
+          done();
+        });
+    });
+    it('Should return error when no token is supplied to get trips', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/trips/Oyo')
+        .set('Authorization', `Bearer ${''}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt must be provided');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should return error when a wrong token is supplied to get trips', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/trips/Oyo')
+        .set('Authorization', `Bearer ${abc}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.error).to.be.equal('JsonWebTokenError. jwt malformed');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+          );
+          done();
+        });
+    });
+    it('Should restrict admin to get all trips based on destination', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/trips/Oyo')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.statuscode).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+            'message',
+          );
+          done();
+        });
+    });
+    it('Should return error when there is no trip based on destination', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/trips/sabo')
+        .set('Authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.statuscode).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Not found');
+          expect(res.body.message).to.be.equal('There is no trip available');
+          expect(res.body).to.have.keys(
+            'status',
+            'statuscode',
+            'error',
+            'message',
+          );
+          done();
+        });
+    });
+  });
+
   describe('PATCH api/v1/trips/:tripId', () => {
     it('Should successfully cancel a trip', (done) => {
       chai
