@@ -18,6 +18,10 @@ app.get('/', (req, res) => res.status(200).send({
   message: 'Welcome To WayFarer, Transportation made easy.',
 }));
 
+app.get('/documentation', (req, res) => {
+  return res.redirect('https://app.swaggerhub.com/apis/hadeoh/wayfarer/1.0');
+});
+
 // Handles
 app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/buses', busRoutes);

@@ -9,7 +9,7 @@ Project is currently being built with the Project Management Tool, Pivotal Track
 API is deployed [here](https://wayfarer1960.herokuapp.com)
 
 ## API Documentation
-The documentation for API is [here]()
+The documentation for API is [here](https://app.swaggerhub.com/apis/hadeoh/wayfarer/1.0)
 
 ## Built with
 - NodeJS
