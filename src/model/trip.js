@@ -20,7 +20,7 @@ class Trip {
   }
 
   static async getATrip(trip_id) {
-    const query = 'SELECT id AS trip_id,bus_id,origin,destination,trip_date,fare,status FROM trips WHERE id = $1';
+    const query = 'SELECT * FROM trips WHERE id = $1';
     const result = await db.query(query, [trip_id]);
     return result.rows[0];
   }

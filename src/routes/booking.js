@@ -3,7 +3,9 @@ import BookingController from '../controllers/booking';
 import BookingValidation from '../middleware/bookingvalidator';
 import Auth from '../middleware/auth';
 
-const { createBooking, getAllBookings, deleteBooking, changeSeat } = BookingController;
+const {
+  createBooking, getAllBookings, deleteBooking, changeSeat,
+} = BookingController;
 const { getUser, notAdminCheck } = Auth;
 const { bookingCheck, seatCheck } = BookingValidation;
 
