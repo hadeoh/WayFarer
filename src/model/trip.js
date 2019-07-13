@@ -13,20 +13,20 @@ class Trip {
   }
 
   static async getAllTrips() {
-    const query = 'SELECT * FROM trips';
+    const query = 'SELECT id AS trip_id,bus_id,origin,destination,trip_date,fare,status FROM trips';
     const { rows, rowCount } = await db.query(query);
     if (rowCount > 0) return rows;
     return false;
   }
 
   static async getATrip(trip_id) {
-    const query = 'SELECT * FROM trips WHERE trip_id = $1';
+    const query = 'SELECT id AS trip_id,bus_id,origin,destination,trip_date,fare,status FROM trips WHERE id = $1';
     const result = await db.query(query, [trip_id]);
     return result.rows[0];
   }
 
   static async update(status, tripId) {
-    const query = 'UPDATE trips SET status = $1 where trip_id = $2';
+    const query = 'UPDATE trips SET status = $1 where id = $2';
     const result = await db.query(query, [status, tripId]);
     return result.rows;
   }

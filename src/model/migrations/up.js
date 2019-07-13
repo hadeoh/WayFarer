@@ -47,7 +47,7 @@ const createTableSchema = async () => {
         status TEXT NOT NULL DEFAULT 'available'
         );
     CREATE TABLE trips (
-        trip_id SERIAL PRIMARY KEY NOT NULL,
+        id SERIAL PRIMARY KEY NOT NULL,
         bus_id INTEGER NOT NULL REFERENCES buses(id) ON DELETE CASCADE,
         origin TEXT NOT NULL,
         destination VARCHAR(128) NOT NULL,
@@ -57,7 +57,7 @@ const createTableSchema = async () => {
         );
     CREATE TABLE bookings (
         id SERIAL PRIMARY KEY NOT NULL,
-        trip_id INTEGER NOT NULL REFERENCES trips(trip_id) ON DELETE CASCADE,
+        trip_id INTEGER NOT NULL REFERENCES trips(id) ON DELETE CASCADE,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         seat_number INTEGER,
         created_on TIMESTAMP DEFAULT now(),
