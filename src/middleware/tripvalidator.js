@@ -12,7 +12,6 @@ class TripValidation {
     if (origin) origin = origin.trim();
     if (destination) destination = destination.trim();
     if (trip_date) trip_date = trip_date.trim();
-    console.log(request)
 
     const errors = TripValidation.inputCheck(bus_id, origin, destination, trip_date, fare);
     if (errors.length > 0) return res.status(errors[0].statuscode).json(errors[0]);
