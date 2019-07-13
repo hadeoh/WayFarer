@@ -30,6 +30,12 @@ class Trip {
     const result = await db.query(query, [status, tripId]);
     return result.rows;
   }
+
+  static async getTripsDestination(destination) {
+    const query = 'SELECT * FROM trips  WHERE destination = $1';
+    const result = await db.query(query, [destination]);
+    return result.rows;
+  }
 }
 
 export default Trip;

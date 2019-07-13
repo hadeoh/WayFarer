@@ -27,6 +27,15 @@ class TripController {
       return next(e);
     }
   }
+
+  static async getTripsDestination(req, res, next) {
+    try {
+      const response = await TripService.getTripsDestination(req.params.destination);
+      return res.status(response.statuscode).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 export default TripController;
