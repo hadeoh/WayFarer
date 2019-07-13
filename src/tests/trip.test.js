@@ -60,7 +60,7 @@ describe('Tests for all trips Endpoints', () => {
           expect(res).to.have.status(201);
           expect(res.body.statuscode).to.be.equal(201);
           expect(res.body.data).to.have.keys(
-            'trip_id',
+            'id',
             'bus_id',
             'origin',
             'destination',
